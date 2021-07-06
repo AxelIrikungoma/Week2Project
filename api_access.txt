@@ -1,0 +1,5 @@
+Abstract API Key = '2240019ef22443bf83b96d9fc4599e31' (Berniel)
+
+Numverify API Key = 'c9c53eb9e5381913088a3aaa5b6555f8' (Axel)
+
+Cloudmersive API Key = '67b914a1-cb20-40ae-87b2-0e1e6327df97' (Berniel)
