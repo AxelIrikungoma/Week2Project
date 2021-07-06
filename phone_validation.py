@@ -2,7 +2,7 @@ import requests
 import pandas as pd
 import os
 import sqlalchemy
-from sqlalchemy import create_engine_function
+from sqlalchemy import create_engine
 import matplotlib
 import matplotlib.pyplot as plt
 
@@ -73,6 +73,13 @@ def load_database(dbName, fileName):
     os.system('mysql -u root -pcodio ' + dbName + ' < ' + fileName + '.sql')
 
 
+def update_database(dbName, tableName, fileName):
+    load_database(dbName, fileName)
+    df = pd.read_sql_table(tableName, con=create_engine_function(dbName))
+
+    return loadNewData(df)
+
+
 def main():
     # Abstract API key
     abstract_api_key = '2240019ef22443bf83b96d9fc4599e31'
@@ -81,8 +88,9 @@ def main():
     data = get_data_from_api(phone_number, abstract_api_key)
     values = get_values(data)
     dataframe = create_dataframe(values)
+    save_data_to_file(dataframe, 'phone_number_db', 'validity_table', 'phone_number_file')
     print(dataframe)
-    
-    
+
+   
 if __name__ == "__main__":
     main()
