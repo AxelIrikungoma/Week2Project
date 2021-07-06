@@ -30,10 +30,14 @@ def get_data_from_api(phone_number, api_key):
     return response_json
     
 
-def create_dataframe(values):
+def create_dataframe():
     column_names = ['Phone Number', 'Validity', 'Country', 'Location', 'Type',
                     'Carrier']
     dataframe = pd.DataFrame(columns=column_names)
+    return dataframe
+
+
+def put_values_dataframe(dataframe, values):
     dataframe.loc[len(dataframe.index)] = values
     return dataframe
     
@@ -81,15 +85,25 @@ def update_database(dbName, tableName, fileName):
 
 
 def main():
+    # defining some terms
+    tableName = 'validity_table'
+    fileName = 'phone_number_file'
+    dbName = 'phone_number_db'
+    
     # Abstract API key
     abstract_api_key = '2240019ef22443bf83b96d9fc4599e31'
     numverify_key = 'c9c53eb9e5381913088a3aaa5b6555f8'
     phone_number = get_user_input()
     data = get_data_from_api(phone_number, abstract_api_key)
+    
+    # dataframe = create_dataframe(values)
+    
+    load_database(dbName, fileName)
+    dtfr_initial = pd.read_sql_table(tableName, con=create_engine_function(dbName))
     values = get_values(data)
-    dataframe = create_dataframe(values)
-    save_data_to_file(dataframe, 'phone_number_db', 'validity_table', 'phone_number_file')
-    print(dataframe)
+    dtfr_final = put_values_dataframe(dtfr_initial, values)
+    save_data_to_file(dtfr_final, 'phone_number_db', tableName, 'phone_number_file')
+    print(dtfr_final)
 
    
 if __name__ == "__main__":

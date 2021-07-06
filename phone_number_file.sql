@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `validity_table`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `validity_table` (
   `Phone Number` text DEFAULT NULL,
-  `Validity` tinyint(1) DEFAULT NULL,
+  `Validity` bigint(20) DEFAULT NULL,
   `Country` text DEFAULT NULL,
   `Location` text DEFAULT NULL,
   `Type` text DEFAULT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE `validity_table` (
 
 LOCK TABLES `validity_table` WRITE;
 /*!40000 ALTER TABLE `validity_table` DISABLE KEYS */;
-INSERT INTO `validity_table` VALUES ('+16463012996',1,'United States','New York','mobile','T-Mobile USA, Inc.');
+INSERT INTO `validity_table` VALUES ('+16156002012',1,'United States','Tennessee','mobile','T-Mobile USA, Inc.'),('+16463012996',1,'United States','New York','mobile','T-Mobile USA, Inc.'),('+16463012996',1,'United States','New York','mobile','T-Mobile USA, Inc.');
 /*!40000 ALTER TABLE `validity_table` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-06 19:36:36
+-- Dump completed on 2021-07-06 22:03:31
