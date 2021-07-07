@@ -25,13 +25,13 @@ def get_data_from_api(phone_number, api_key):
     #                        '&number=' + str(phone_number) + '&format=1')
     
     response_json = response.json()
-    print(response_json)
+    # print(response_json)
     return response_json
     
 
 def create_dataframe():
-    column_names = ['Phone Number', 'Validity', 'Country', 'Location', 'Type',
-                    'Carrier']
+    column_names = ['Phone Number', 'Validity', 'Country', 'Location',
+                    'International Format', 'Type', 'Carrier']
     dataframe = pd.DataFrame(columns=column_names)
     return dataframe
 
@@ -42,13 +42,14 @@ def put_values_dataframe(dataframe, values):
     
 
 def get_values(data):
-    phone_number = data['format']['international']
+    phone_number = data['phone']
     validity = data['valid']
     country = data['country']['name']
     location = data['location']
+    international_format = data['format']['international']
     number_type = data['type']
     carrier = data['carrier']
-    return phone_number, validity, country, location, number_type, carrier
+    return phone_number, validity, country, location, international_format, number_type, carrier
 
 
 def create_engine_function(dbName):
@@ -84,15 +85,13 @@ def load_database(dbName, fileName):
 
   
 def check_database_input(phone_number, dataframe):
-    result = dataframe[dataframe['Phone Number'] == phone_number]
-    print(dataframe)
-    print (result)
-    print(len(result.index))
+    phone_format = "+" + str(phone_number)
+    result = dataframe[dataframe['Phone Number'] == phone_format]
     return (len(result.index) != 0), result
     
 
 def check_validity(dataframe):
-    if dataframe['Validity'] == 1:
+    if dataframe['Validity'].item() == 1:
         print(dataframe)
     else:
         print('The phone number you provided is invalid')
@@ -114,11 +113,12 @@ def main():
     dtfr_initial = pd.read_sql_table(tableName, con=create_engine_function(dbName))
     is_in_db = check_database_input(phone_number, dtfr_initial)
     if is_in_db[0]:
-        check_validity(is_in_db[1])
+       check_validity(is_in_db[1])
     else:
         data = get_data_from_api(phone_number, abstract_api_key) 
         values = get_values(data)
         # dataframe = create_dataframe(values)
+        # dataframe_with_values = put_values_dataframe(dataframe, values)
         dtfr_final = put_values_dataframe(dtfr_initial, values)
         save_data_to_file(dtfr_final, dbName, tableName, fileName)
         check_validity(dtfr_final.tail(1))

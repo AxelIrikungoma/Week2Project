@@ -27,6 +27,7 @@ CREATE TABLE `validity_table` (
   `Validity` bigint(20) DEFAULT NULL,
   `Country` text DEFAULT NULL,
   `Location` text DEFAULT NULL,
+  `International Format` text DEFAULT NULL,
   `Type` text DEFAULT NULL,
   `Carrier` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -38,7 +39,7 @@ CREATE TABLE `validity_table` (
 
 LOCK TABLES `validity_table` WRITE;
 /*!40000 ALTER TABLE `validity_table` DISABLE KEYS */;
-INSERT INTO `validity_table` VALUES ('+16156002012',1,'United States','Tennessee','mobile','T-Mobile USA, Inc.'),('+16463012996',1,'United States','New York','mobile','T-Mobile USA, Inc.'),('+27746697207',1,'South Africa','South Africa','mobile','CELL C');
+INSERT INTO `validity_table` VALUES ('16463012996',1,'United States','New York','+16463012996','mobile','T-Mobile USA, Inc.'),('16156002012',1,'United States','Tennessee','+16156002012','mobile','T-Mobile USA, Inc.'),('25775938836',1,'Burundi','Burundi','+25775938836','mobile','Smart Burundi');
 /*!40000 ALTER TABLE `validity_table` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-06 22:17:39
+-- Dump completed on 2021-07-07 20:12:46
