@@ -24,7 +24,6 @@ def get_data_from_api(phone_number, api_key):
     # response = requests.get(numverify_base_url + "?access_key=" + api_key +
     #                        '&number=' + str(phone_number) + '&format=1')
     
-    print(response.status_code)
     response_json = response.json()
     print(response_json)
     return response_json
@@ -50,8 +49,8 @@ def get_values(data):
     number_type = data['type']
     carrier = data['carrier']
     return phone_number, validity, country, location, number_type, carrier
-    
-    
+
+
 def create_engine_function(dbName):
     return create_engine('mysql://root:codio@localhost/'
                          + dbName + '?charset=utf8', encoding='utf-8')
@@ -77,33 +76,52 @@ def load_database(dbName, fileName):
     os.system('mysql -u root -pcodio ' + dbName + ' < ' + fileName + '.sql')
 
 
-def update_database(dbName, tableName, fileName):
-    load_database(dbName, fileName)
-    df = pd.read_sql_table(tableName, con=create_engine_function(dbName))
+# def update_database(dbName, tableName, fileName):
+#     load_database(dbName, fileName)
+#     df = pd.read_sql_table(tableName, con=create_engine_function(dbName))
 
-    return loadNewData(df)
+#     return loadNewData(df)
 
+  
+def check_database_input(phone_number, dataframe):
+    result = dataframe[dataframe['Phone Number'] == phone_number]
+    print(dataframe)
+    print (result)
+    print(len(result.index))
+    return (len(result.index) != 0), result
+    
 
+def check_validity(dataframe):
+    if dataframe['Validity'] == 1:
+        print(dataframe)
+    else:
+        print('The phone number you provided is invalid')
+    
+  
 def main():
     # defining some terms
     tableName = 'validity_table'
     fileName = 'phone_number_file'
     dbName = 'phone_number_db'
     
-    # Abstract API key
+    # API keys
     abstract_api_key = '2240019ef22443bf83b96d9fc4599e31'
     numverify_key = 'c9c53eb9e5381913088a3aaa5b6555f8'
+    
+    
     phone_number = get_user_input()
-    data = get_data_from_api(phone_number, abstract_api_key)
-    
-    # dataframe = create_dataframe(values)
-    
     load_database(dbName, fileName)
     dtfr_initial = pd.read_sql_table(tableName, con=create_engine_function(dbName))
-    values = get_values(data)
-    dtfr_final = put_values_dataframe(dtfr_initial, values)
-    save_data_to_file(dtfr_final, 'phone_number_db', tableName, 'phone_number_file')
-    print(dtfr_final)
+    is_in_db = check_database_input(phone_number, dtfr_initial)
+    if is_in_db[0]:
+        check_validity(is_in_db[1])
+    else:
+        data = get_data_from_api(phone_number, abstract_api_key) 
+        values = get_values(data)
+        # dataframe = create_dataframe(values)
+        dtfr_final = put_values_dataframe(dtfr_initial, values)
+        save_data_to_file(dtfr_final, dbName, tableName, fileName)
+        check_validity(dtfr_final.tail(1))
 
    
 if __name__ == "__main__":
