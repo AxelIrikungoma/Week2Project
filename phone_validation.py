@@ -85,7 +85,7 @@ def load_database(dbName, fileName):
 
   
 def check_database_input(phone_number, dataframe):
-    phone_format = "+" + str(phone_number)
+    phone_format = str(phone_number)
     result = dataframe[dataframe['Phone Number'] == phone_format]
     return (len(result.index) != 0), result
     
