@@ -93,6 +93,7 @@ def check_database_input(phone_number, dataframe):
 def check_validity(dataframe):
     if dataframe['Validity'].item() == 1:
         print(dataframe)
+        
     else:
         print('The phone number you provided is invalid')
     
@@ -119,9 +120,13 @@ def main():
         values = get_values(data)
         # dataframe = create_dataframe(values)
         # dataframe_with_values = put_values_dataframe(dataframe, values)
-        dtfr_final = put_values_dataframe(dtfr_initial, values)
-        save_data_to_file(dtfr_final, dbName, tableName, fileName)
-        check_validity(dtfr_final.tail(1))
+        if values[1]:
+            dtfr_final = put_values_dataframe(dtfr_initial, values)
+            save_data_to_file(dtfr_final, dbName, tableName, fileName)
+            print(dtfr_final.tail(1))
+        else:
+            print('The phone number you provided is invalid')
+        
 
    
 if __name__ == "__main__":
