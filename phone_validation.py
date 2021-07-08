@@ -1,4 +1,5 @@
 import requests
+import csv
 import pandas as pd
 import os
 import sqlalchemy
@@ -30,7 +31,7 @@ def get_data_from_api(phone_number, api_key):
     
 
 def create_dataframe():
-    column_names = ['Phone Number', 'Validity', 'Country', 'Location',
+    column_names = ['Phone Number', 'Validity', 'Spam', 'Country', 'Location',
                     'International Format', 'Type', 'Carrier']
     dataframe = pd.DataFrame(columns=column_names)
     return dataframe
@@ -39,7 +40,13 @@ def create_dataframe():
 def put_values_dataframe(dataframe, values):
     dataframe.loc[len(dataframe.index)] = values
     return dataframe
-    
+
+
+def is_spam(phone_number, spam_numbers):
+    formatted_phone_number = phone_number[1:len(phone_number)]
+    result = spam_numbers[spam_numbers['Company_Phone_Number'] == formatted_phone_number]
+    return (len(result.index) != 0)
+
 
 def get_values(data):
     phone_number = data['phone']
@@ -104,6 +111,9 @@ def main():
     fileName = 'phone_number_file'
     dbName = 'phone_number_db'
     
+    # spam numbers dataset/dataframe
+    spam_numbers = pd.read_csv("dnc_complaint_numbers_2021-07-08.csv")
+    
     # API keys
     abstract_api_key = '2240019ef22443bf83b96d9fc4599e31'
     numverify_key = 'c9c53eb9e5381913088a3aaa5b6555f8'
@@ -124,6 +134,8 @@ def main():
             dtfr_final = put_values_dataframe(dtfr_initial, values)
             save_data_to_file(dtfr_final, dbName, tableName, fileName)
             print(dtfr_final.tail(1))
+            if is_spam(phone_number, spam_numbers):
+                print('The phone number you provided has been reported as spam')
         else:
             print('The phone number you provided is invalid')
         
