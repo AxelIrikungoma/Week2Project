@@ -24,7 +24,8 @@ DROP TABLE IF EXISTS `validity_table`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `validity_table` (
   `Phone Number` text DEFAULT NULL,
-  `Validity` bigint(20) DEFAULT NULL,
+  `Validity` tinyint(1) DEFAULT NULL,
+  `Spam` tinyint(1) DEFAULT NULL,
   `Country` text DEFAULT NULL,
   `Location` text DEFAULT NULL,
   `International Format` text DEFAULT NULL,
@@ -39,7 +40,7 @@ CREATE TABLE `validity_table` (
 
 LOCK TABLES `validity_table` WRITE;
 /*!40000 ALTER TABLE `validity_table` DISABLE KEYS */;
-INSERT INTO `validity_table` VALUES ('16463012996',1,'United States','New York','+16463012996','mobile','T-Mobile USA, Inc.'),('16156002012',1,'United States','Tennessee','+16156002012','mobile','T-Mobile USA, Inc.'),('25775938836',1,'Burundi','Burundi','+25775938836','mobile','Smart Burundi'),('27746697207',1,'South Africa','South Africa','+27746697207','mobile','CELL C'),('18313464750',1,'United States','California','+18313464750','voip','Twilio - SMS/MMS-SVR'),('16156369839',1,'United States','Tennessee','+16156369839','mobile','Verizon Wireless');
+INSERT INTO `validity_table` VALUES ('14703352559',1,1,'United States','Georgia','+14703352559','landline','Peerless Network'),('16156002012',1,0,'United States','Tennessee','+16156002012','mobile','T-Mobile USA, Inc.'),('16463012996',1,0,'United States','New York','+16463012996','mobile','T-Mobile USA, Inc.');
 /*!40000 ALTER TABLE `validity_table` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-07 21:10:37
+-- Dump completed on 2021-07-08 19:36:43
