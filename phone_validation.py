@@ -1,4 +1,5 @@
 import requests
+import csv
 import pandas as pd
 import os
 import sqlalchemy
@@ -30,26 +31,35 @@ def get_data_from_api(phone_number, api_key):
     
 
 def create_dataframe():
-    column_names = ['Phone Number', 'Validity', 'Country', 'Location',
+    column_names = ['Phone Number', 'Validity', 'Spam', 'Country', 'Location',
                     'International Format', 'Type', 'Carrier']
     dataframe = pd.DataFrame(columns=column_names)
     return dataframe
 
 
 def put_values_dataframe(dataframe, values):
+    bool_column_names = ['Validity', 'Spam']
+    dataframe[bool_column_names] = dataframe[bool_column_names].astype(bool)
     dataframe.loc[len(dataframe.index)] = values
     return dataframe
-    
 
-def get_values(data):
+
+def is_spam(phone_number, spam_numbers):
+    formatted_phone_number = phone_number[1:len(phone_number)]
+    result = spam_numbers[spam_numbers['Company_Phone_Number'] == formatted_phone_number]
+    return (len(result.index) != 0)
+
+
+def get_values(data, spam_numbers):
     phone_number = data['phone']
     validity = data['valid']
+    spam = is_spam(phone_number, spam_numbers)
     country = data['country']['name']
     location = data['location']
     international_format = data['format']['international']
     number_type = data['type']
     carrier = data['carrier']
-    return phone_number, validity, country, location, international_format, number_type, carrier
+    return phone_number, validity, spam, country, location, international_format, number_type, carrier
 
 
 def create_engine_function(dbName):
@@ -104,6 +114,9 @@ def main():
     fileName = 'phone_number_file'
     dbName = 'phone_number_db'
     
+    # spam numbers dataset/dataframe
+    spam_numbers = pd.read_csv("dnc_complaint_numbers_2021-07-08.csv")
+    
     # API keys
     abstract_api_key = '2240019ef22443bf83b96d9fc4599e31'
     numverify_key = 'c9c53eb9e5381913088a3aaa5b6555f8'
@@ -114,20 +127,23 @@ def main():
     dtfr_initial = pd.read_sql_table(tableName, con=create_engine_function(dbName))
     is_in_db = check_database_input(phone_number, dtfr_initial)
     if is_in_db[0]:
-       check_validity(is_in_db[1])
+        check_validity(is_in_db[1])
     else:
         data = get_data_from_api(phone_number, abstract_api_key) 
-        values = get_values(data)
-        # dataframe = create_dataframe(values)
+        values = get_values(data, spam_numbers)
+        
+        # creating a new dataframe/database/SQL file
+        # dataframe = create_dataframe()
         # dataframe_with_values = put_values_dataframe(dataframe, values)
+        
         if values[1]:
+            # using an existing database/SQL file
             dtfr_final = put_values_dataframe(dtfr_initial, values)
             save_data_to_file(dtfr_final, dbName, tableName, fileName)
             print(dtfr_final.tail(1))
         else:
             print('The phone number you provided is invalid')
-        
 
-   
+
 if __name__ == "__main__":
     main()
