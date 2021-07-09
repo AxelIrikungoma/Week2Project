@@ -23,7 +23,7 @@ data_list = []
 for state in spam_numbers['Consumer_State']:
     x_list.append(state)
 new_x_list1 = list(set(x_list))
-new_x_list2 = [x for x in new_x_list1 if pd.isnull(x) == False]
+new_x_list2 = [x for x in new_x_list1 if pd.isnull(x) is False]
 new_x_list2.sort()
 
 # putting subjects in y_list
