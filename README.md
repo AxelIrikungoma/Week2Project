@@ -4,8 +4,9 @@
 The [main program](phone_validation.py) asks a user to input a phone number and checks whether
 the phone number is valid or not per this [API](https://www.abstractapi.com/) and whether it has
 been reported as a spam number per this [dataset](dnc_complaint_numbers_2021-07-08.csv) from the
-[FTC(Federal Trade Commission)'s Do Not Call (DNC) Reported Calls Data](https://www.ftc.gov/site-information/open-government/data-sets/do-not-call-data)
-updated daily.
+[FTC (Federal Trade Commission)'s Do Not Call (DNC) Reported Calls Data](https://www.ftc.gov/site-information/open-government/data-sets/do-not-call-data), 
+with daily updates.
+
 All valid numbers are stored in a [SQL file](phone_number_file.sql) and a corresponding database
 so that the API is not called if a phone number input by the user is already in the database.
 
@@ -18,6 +19,7 @@ and every time new changes are pushed to this GitHub repo.
 
 ## Developer Info
 Name: Axel Irikungoma          | Email address: axel.irikungoma@vanderbilt.edu
+
 Name: Chris Berniel Cobashatse | Email address: cc4536@columbia.edu
 
 ## Actions upon a push to GitHub
