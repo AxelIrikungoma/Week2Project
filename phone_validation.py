@@ -95,12 +95,14 @@ def load_database(dbName, fileName):
 
 def check_database_input(phone_number, dataframe):
     phone_format = str(phone_number)
+    bool_column_names = ['Validity', 'Spam']
+    dataframe[bool_column_names] = dataframe[bool_column_names].astype(bool)
     result = dataframe[dataframe['Phone Number'] == phone_format]
     return (len(result.index) != 0), result
 
 
 def check_validity(dataframe):
-    if dataframe['Validity'].item() == 1:
+    if dataframe['Validity'].item() == True:
         print(dataframe)
 
     else:
