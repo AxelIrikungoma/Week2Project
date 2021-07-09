@@ -60,7 +60,7 @@ def get_values(data, spam_numbers):
     number_type = data['type']
     carrier = data['carrier']
     return phone_number, validity, spam, country, location,\
-            international_format, number_type, carrier
+    international_format, number_type, carrier
 
 
 def create_engine_function(dbName):
