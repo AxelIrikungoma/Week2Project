@@ -5,7 +5,6 @@ import time
 from phone_validation import get_data_from_api, create_dataframe
 from phone_validation import put_values_dataframe, get_values
 
-
 class PhoneNumTest(unittest.TestCase):
 
     def test_data_from_api(self):
