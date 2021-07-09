@@ -4,8 +4,6 @@ import pandas as pd
 import os
 import sqlalchemy
 from sqlalchemy import create_engine
-import matplotlib
-import matplotlib.pyplot as plt
 
 
 # test if the input is not empty and is a number
