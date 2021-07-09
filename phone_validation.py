@@ -102,9 +102,8 @@ def check_database_input(phone_number, dataframe):
 
 
 def check_validity(dataframe):
-    if dataframe['Validity'].item() == True:
+    if dataframe['Validity'].item() is True:
         print(dataframe)
-
     else:
         print('The phone number you provided is invalid')
 
