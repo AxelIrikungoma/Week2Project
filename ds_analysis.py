@@ -44,8 +44,6 @@ for subject in new_y_list:
 
 # plotting
 import plotly.graph_objects as go
-map_ = go.Figure(data=go.Heatmap(z = data_list, x = new_x_list2, y=new_y_list)) # create a figure
+map_ = go.Figure(data=go.Heatmap(z = data_list, x = new_x_list2, y=new_y_list))  # create a figure
 map_.update_layout(title='Spam Calls per State and Subject')
-map_.write_html('map.html') # export to HTML file
-
-
+map_.write_html('map.html')  # export to HTML file
