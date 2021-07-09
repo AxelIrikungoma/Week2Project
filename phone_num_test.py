@@ -1,4 +1,5 @@
 import unittest
+import csv
 import pandas as pd
 import time
 
@@ -18,18 +19,19 @@ class PhoneNumTest(unittest.TestCase):
     def test_dtfr_creation(self):
         dtfr = create_dataframe()
         self.assertEqual(type(dtfr), type(pd.DataFrame()))
-        column_names = ['Phone Number', 'Validity', 'Country', 'Location',
-                        'International Format', 'Type', 'Carrier']
+        column_names = ['Phone Number', 'Validity', 'Spam', 'Country',
+                        'Location', 'International Format', 'Type', 'Carrier']
         for i in range(len(column_names)):
             self.assertEqual(column_names[i], dtfr.columns[i])
 
     def test_values(self):
         api_key = '2240019ef22443bf83b96d9fc4599e31'
         phone_number = '16156002012'
+        spam_numbers = pd.read_csv("dnc_complaint_numbers_2021-07-08.csv")
         time.sleep(1)
         data = get_data_from_api(phone_number, api_key)
-        values1 = get_values(data)
-        values2 = ('16156002012', True, 'United States', 'Tennessee',
+        values1 = get_values(data, spam_numbers)
+        values2 = ('16156002012', True, False, 'United States', 'Tennessee',
                    '+16156002012', 'mobile', 'T-Mobile USA, Inc.')
         self.assertEqual(values1, values2)
 
