@@ -8,7 +8,6 @@ from phone_validation import put_values_dataframe, get_values
 
 class PhoneNumTest(unittest.TestCase):
 
-
     def test_data_from_api(self):
         api_key = '2240019ef22443bf83b96d9fc4599e31'
         phone_number = '16156002012'

@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 def get_user_input():
     user_input = input("Enter a phone number: ")
     return user_input
-    
+
 
 def get_data_from_api(phone_number, api_key):
     # abstract API
