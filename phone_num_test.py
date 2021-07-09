@@ -14,7 +14,6 @@ class PhoneNumTest(unittest.TestCase):
         self.assertEqual(type(response_json), type({}))
         self.assertNotEqual(response_json, {})
 
-
     def test_dtfr_creation(self):
         dtfr = create_dataframe()
         self.assertEqual(type(dtfr), type(pd.DataFrame()))
@@ -22,7 +21,6 @@ class PhoneNumTest(unittest.TestCase):
                         'International Format', 'Type', 'Carrier']
         for i in range(len(column_names)):
             self.assertEqual(column_names[i], dtfr.columns[i])
-
 
     def test_values(self):
         api_key = '2240019ef22443bf83b96d9fc4599e31'
